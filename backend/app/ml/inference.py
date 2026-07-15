@@ -1,0 +1,146 @@
+"""Loads trained model artifacts once and exposes per-enterprise forecast,
+risk, and recommendation predictions built from live DB state."""
+
+from datetime import date
+
+from sqlalchemy.orm import Session
+
+from app.config import settings
+from app.ml import forecast_model, risk_model
+from app.ml.features import RecursiveState, row_to_feature_vector
+from app.ml.recommend import build_recommendations
+from app.models import Enterprise, ExternalIndicator, FinancialRecord, Loan, UpiTransaction
+
+_forecast_cache: dict = {}
+_risk_cache: dict = {}
+
+
+def _get_forecast_model():
+    if "model" not in _forecast_cache:
+        model, residual_std = forecast_model.load(settings.ml_artifacts_dir)
+        _forecast_cache["model"] = model
+        _forecast_cache["residual_std"] = residual_std
+    return _forecast_cache["model"], _forecast_cache["residual_std"]
+
+
+def _get_risk_model():
+    if "model" not in _risk_cache:
+        _risk_cache["model"] = risk_model.load(settings.ml_artifacts_dir)
+    return _risk_cache["model"]
+
+
+def _loan_agg_for(db: Session, enterprise_id: int) -> dict:
+    loans = db.query(Loan).filter(Loan.enterprise_id == enterprise_id).all()
+    return dict(
+        outstanding_loan_total=sum(l.outstanding for l in loans),
+        loan_repayment_burden=sum(l.monthly_repayment for l in loans),
+        missed_payments_last_6m_max=max((l.missed_payments_last_6m for l in loans), default=0),
+        has_defaulted=int(any(l.repayment_status.value == "defaulted" for l in loans)),
+    )
+
+
+def _build_state(db: Session, enterprise: Enterprise) -> tuple[RecursiveState, date, dict[date, dict]]:
+    financials = (
+        db.query(FinancialRecord)
+        .filter(FinancialRecord.enterprise_id == enterprise.id)
+        .order_by(FinancialRecord.month)
+        .all()
+    )
+    if not financials:
+        raise ValueError("No financial history for this enterprise")
+
+    upi_by_month = {
+        u.month: u
+        for u in db.query(UpiTransaction).filter(UpiTransaction.enterprise_id == enterprise.id).all()
+    }
+
+    history = []
+    for f in financials[-6:]:
+        u = upi_by_month.get(f.month)
+        history.append(
+            dict(
+                income=f.income,
+                expenses=f.expenses,
+                cash_balance=f.cash_balance,
+                working_capital=f.working_capital,
+                savings=f.savings,
+                upi_txn_volume=u.txn_volume if u else 0.0,
+                avg_txn_value=u.avg_txn_value if u else 0.0,
+            )
+        )
+
+    static = dict(
+        sector=enterprise.sector.value,
+        size=enterprise.size.value,
+        years_in_operation=enterprise.years_in_operation,
+    )
+    loan_agg = _loan_agg_for(db, enterprise.id)
+    state = RecursiveState(history=history, static=static, loan_agg=loan_agg)
+
+    ext_rows = (
+        db.query(ExternalIndicator)
+        .filter(
+            ExternalIndicator.sector == enterprise.sector, ExternalIndicator.state == enterprise.state
+        )
+        .all()
+    )
+    ext_by_month = {
+        r.month: dict(
+            rainfall_mm=r.rainfall_mm,
+            temp_c=r.temp_c,
+            commodity_price_index=r.commodity_price_index,
+            demand_index=r.demand_index,
+            flood_flag=r.flood_flag,
+            drought_flag=r.drought_flag,
+            festival_flag=r.festival_flag,
+        )
+        for r in ext_rows
+    }
+
+    last_month = financials[-1].month
+    return state, last_month, ext_by_month
+
+
+def forecast_for_enterprise(db: Session, enterprise: Enterprise, horizon: int = 6) -> dict:
+    model, residual_std = _get_forecast_model()
+    state, last_month, ext_by_month = _build_state(db, enterprise)
+    points = forecast_model.predict_recursive(
+        model, residual_std, state, ext_by_month, last_month, horizon
+    )
+    return dict(forecast=points, last_month=last_month)
+
+
+def risk_for_enterprise(db: Session, enterprise: Enterprise) -> dict:
+    model = _get_risk_model()
+    state, last_month, ext_by_month = _build_state(db, enterprise)
+    ext_row = ext_by_month.get(last_month, {})
+    feature_row = state.build_row(last_month, ext_row)
+    X = row_to_feature_vector(feature_row)
+    result = risk_model.predict(model, X)
+    result["message"] = _build_message(result, enterprise)
+    return result
+
+
+def _build_message(result: dict, enterprise: Enterprise) -> str:
+    level = result["level"]
+    top_driver_label = risk_model.top_risk_driver_label(result["drivers"])
+    if level == "high":
+        base = (
+            f"{enterprise.name} shows signs of financial stress that may worsen within "
+            f"{result['horizon_months']} month(s)."
+        )
+    elif level == "medium":
+        base = (
+            f"{enterprise.name} shows early signs of financial strain over the next "
+            f"{result['horizon_months']} months."
+        )
+    else:
+        base = f"{enterprise.name}'s financial position currently looks stable."
+    if top_driver_label and level != "low":
+        base += f" Main factor: {top_driver_label.lower()}."
+    return base
+
+
+def recommendations_for_enterprise(db: Session, enterprise: Enterprise) -> list[dict]:
+    risk = risk_for_enterprise(db, enterprise)
+    return build_recommendations(enterprise.sector.value, risk["drivers"], risk["level"])

@@ -1,0 +1,110 @@
+{
+  "common": {
+    "signOut": "Sign out",
+    "loading": "Loading...",
+    "back": "Back",
+    "years": "years"
+  },
+  "auth": {
+    "title": "GramDrishti AI",
+    "subtitle": "AI-powered foresight for rural enterprises",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "incorrectCredentials": "Incorrect email or password",
+    "demoAccountsLabel": "Demo accounts (password: demo1234)",
+    "fieldOfficer": "Field Officer",
+    "ownerAtRisk": "Owner (at-risk)",
+    "ownerStable": "Owner (stable)"
+  },
+  "nav": {
+    "dashboard": "Dashboard"
+  },
+  "sectors": {
+    "dairy": "Dairy",
+    "poultry": "Poultry",
+    "food_processing": "Food Processing",
+    "handicrafts": "Handicrafts",
+    "rural_retail": "Rural Retail"
+  },
+  "size": {
+    "micro": "micro",
+    "small": "small",
+    "medium": "medium"
+  },
+  "risk": {
+    "low": "Low risk",
+    "medium": "Medium risk",
+    "high": "High risk",
+    "levelLow": "Low",
+    "levelMedium": "Medium",
+    "levelHigh": "High",
+    "estimatedHorizon": "Estimated time horizon: within {{count}} month",
+    "estimatedHorizon_other": "Estimated time horizon: within {{count}} months"
+  },
+  "kpi": {
+    "cashBalance": "Cash balance",
+    "thisMonthIncome": "This month's income",
+    "thisMonthExpenses": "This month's expenses",
+    "savings": "Savings",
+    "latestIncome": "Latest income",
+    "latestExpenses": "Latest expenses",
+    "outstandingLoans": "Outstanding loans"
+  },
+  "chart": {
+    "cashFlowTitle": "Cash flow — history & 6-month forecast",
+    "actual": "Actual",
+    "forecast": "Forecast",
+    "forecast6m": "Forecast (6 months)",
+    "confidenceRange": "Confidence range",
+    "range": "Range",
+    "riskScoreTitle": "Financial risk score",
+    "avgRiskBySector": "Average risk score by sector",
+    "avgRiskScore": "Avg risk score"
+  },
+  "portal": {
+    "recommendationsForYou": "Recommendations for you",
+    "recordEntryTitle": "Record income, expense, or savings",
+    "type": "Type",
+    "income": "Income",
+    "expense": "Expense",
+    "amount": "Amount (₹)",
+    "addEntry": "Add entry",
+    "offlineHint": "Offline — entries will queue locally",
+    "recorded": "Recorded.",
+    "savedOffline": "Saved offline — will sync when back online.",
+    "loadingDashboard": "Loading your dashboard...",
+    "queuedOne": "{{count}} entry queued offline — will sync automatically",
+    "queuedOne_other": "{{count}} entries queued offline — will sync automatically"
+  },
+  "officer": {
+    "dashboardTitle": "Field Officer Dashboard",
+    "monitoring": "Monitoring {{count}} enterprises",
+    "totalEnterprises": "Total enterprises",
+    "highRisk": "High risk",
+    "mediumRisk": "Medium risk",
+    "lowRisk": "Low risk",
+    "prioritizedList": "Prioritized intervention list",
+    "allSectors": "All sectors",
+    "allRiskLevels": "All risk levels",
+    "colEnterprise": "Enterprise",
+    "colSector": "Sector",
+    "colLocation": "Location",
+    "colRisk": "Risk",
+    "colMainDriver": "Main driver",
+    "colCashBalance": "Cash balance",
+    "loadingEnterprises": "Loading enterprises...",
+    "backToDashboard": "← Back to dashboard",
+    "yearsInOperation": "{{count}} years in operation",
+    "enterpriseSize": "{{size}} enterprise",
+    "recommendedInterventions": "Recommended interventions",
+    "loansTitle": "Loans",
+    "colPrincipal": "Principal",
+    "colOutstanding": "Outstanding",
+    "colMonthlyRepayment": "Monthly repayment",
+    "colStatus": "Status",
+    "colMissed6m": "Missed (6m)",
+    "loadingProfile": "Loading enterprise profile..."
+  }
+}

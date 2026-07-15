@@ -1,0 +1,110 @@
+{
+  "common": {
+    "signOut": "साइन आउट करें",
+    "loading": "लोड हो रहा है...",
+    "back": "वापस",
+    "years": "वर्ष"
+  },
+  "auth": {
+    "title": "GramDrishti AI",
+    "subtitle": "ग्रामीण उद्यमों के लिए AI-संचालित पूर्वदृष्टि",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "signIn": "साइन इन करें",
+    "signingIn": "साइन इन हो रहा है...",
+    "incorrectCredentials": "गलत ईमेल या पासवर्ड",
+    "demoAccountsLabel": "डेमो खाते (पासवर्ड: demo1234)",
+    "fieldOfficer": "फील्ड अधिकारी",
+    "ownerAtRisk": "मालिक (जोखिम में)",
+    "ownerStable": "मालिक (स्थिर)"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड"
+  },
+  "sectors": {
+    "dairy": "डेयरी",
+    "poultry": "मुर्गी पालन",
+    "food_processing": "खाद्य प्रसंस्करण",
+    "handicrafts": "हस्तशिल्प",
+    "rural_retail": "ग्रामीण खुदरा"
+  },
+  "size": {
+    "micro": "सूक्ष्म",
+    "small": "लघु",
+    "medium": "मध्यम"
+  },
+  "risk": {
+    "low": "कम जोखिम",
+    "medium": "मध्यम जोखिम",
+    "high": "उच्च जोखिम",
+    "levelLow": "कम",
+    "levelMedium": "मध्यम",
+    "levelHigh": "उच्च",
+    "estimatedHorizon": "अनुमानित समय सीमा: {{count}} महीने के भीतर",
+    "estimatedHorizon_other": "अनुमानित समय सीमा: {{count}} महीनों के भीतर"
+  },
+  "kpi": {
+    "cashBalance": "नकद शेष",
+    "thisMonthIncome": "इस महीने की आय",
+    "thisMonthExpenses": "इस महीने का खर्च",
+    "savings": "बचत",
+    "latestIncome": "नवीनतम आय",
+    "latestExpenses": "नवीनतम खर्च",
+    "outstandingLoans": "बकाया ऋण"
+  },
+  "chart": {
+    "cashFlowTitle": "नकदी प्रवाह — इतिहास और 6 महीने का पूर्वानुमान",
+    "actual": "वास्तविक",
+    "forecast": "पूर्वानुमान",
+    "forecast6m": "पूर्वानुमान (6 महीने)",
+    "confidenceRange": "विश्वास सीमा",
+    "range": "सीमा",
+    "riskScoreTitle": "वित्तीय जोखिम स्कोर",
+    "avgRiskBySector": "क्षेत्र के अनुसार औसत जोखिम स्कोर",
+    "avgRiskScore": "औसत जोखिम स्कोर"
+  },
+  "portal": {
+    "recommendationsForYou": "आपके लिए सिफारिशें",
+    "recordEntryTitle": "आय, व्यय या बचत दर्ज करें",
+    "type": "प्रकार",
+    "income": "आय",
+    "expense": "व्यय",
+    "amount": "राशि (₹)",
+    "addEntry": "एंट्री जोड़ें",
+    "offlineHint": "ऑफ़लाइन — प्रविष्टियाँ स्थानीय रूप से जमा होंगी",
+    "recorded": "दर्ज किया गया।",
+    "savedOffline": "ऑफ़लाइन सहेजा गया — ऑनलाइन होने पर सिंक होगा।",
+    "loadingDashboard": "आपका डैशबोर्ड लोड हो रहा है...",
+    "queuedOne": "{{count}} एंट्री ऑफ़लाइन कतार में है — स्वतः सिंक होगी",
+    "queuedOne_other": "{{count}} प्रविष्टियाँ ऑफ़लाइन कतार में हैं — स्वतः सिंक होंगी"
+  },
+  "officer": {
+    "dashboardTitle": "फील्ड अधिकारी डैशबोर्ड",
+    "monitoring": "{{count}} उद्यमों की निगरानी की जा रही है",
+    "totalEnterprises": "कुल उद्यम",
+    "highRisk": "उच्च जोखिम",
+    "mediumRisk": "मध्यम जोखिम",
+    "lowRisk": "कम जोखिम",
+    "prioritizedList": "प्राथमिकता हस्तक्षेप सूची",
+    "allSectors": "सभी क्षेत्र",
+    "allRiskLevels": "सभी जोखिम स्तर",
+    "colEnterprise": "उद्यम",
+    "colSector": "क्षेत्र",
+    "colLocation": "स्थान",
+    "colRisk": "जोखिम",
+    "colMainDriver": "मुख्य कारक",
+    "colCashBalance": "नकद शेष",
+    "loadingEnterprises": "उद्यम लोड हो रहे हैं...",
+    "backToDashboard": "← डैशबोर्ड पर वापस जाएँ",
+    "yearsInOperation": "{{count}} वर्षों से परिचालन में",
+    "enterpriseSize": "{{size}} उद्यम",
+    "recommendedInterventions": "अनुशंसित हस्तक्षेप",
+    "loansTitle": "ऋण",
+    "colPrincipal": "मूलधन",
+    "colOutstanding": "बकाया",
+    "colMonthlyRepayment": "मासिक चुकौती",
+    "colStatus": "स्थिति",
+    "colMissed6m": "छूटे (6 माह)",
+    "loadingProfile": "उद्यम प्रोफ़ाइल लोड हो रही है..."
+  }
+}
