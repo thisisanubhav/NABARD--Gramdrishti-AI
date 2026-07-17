@@ -9,8 +9,10 @@ import {
   YAxis,
 } from "recharts";
 import { useTranslation } from "react-i18next";
-import { CHROME, SEQUENTIAL_BLUE } from "../theme";
+import { CATEGORICAL, CHROME, SEQUENTIAL_BLUE } from "../theme";
 import type { FinancialRecordOut, ForecastPoint } from "../api/types";
+
+const SCENARIO_COLOR = CATEGORICAL[7]; // orange — visually distinct from the blue actual/forecast lines
 
 function formatMonth(m: string) {
   const d = new Date(m);
@@ -28,6 +30,7 @@ interface Point {
   label: string;
   actual?: number;
   forecast?: number;
+  scenario?: number;
   lower?: number;
   band?: number;
 }
@@ -62,6 +65,11 @@ function ChartTooltip({ active, payload, label }: any) {
           )}
         </>
       )}
+      {point.scenario !== undefined && (
+        <p style={{ color: SCENARIO_COLOR }}>
+          {t("chart.scenario")}: {formatCurrency(point.scenario)}
+        </p>
+      )}
     </div>
   );
 }
@@ -69,9 +77,12 @@ function ChartTooltip({ active, payload, label }: any) {
 export function CashFlowChart({
   history,
   forecast,
+  scenario,
 }: {
   history: FinancialRecordOut[];
   forecast: ForecastPoint[];
+  /** Optional what-if forecast, same months as `forecast`, overlaid as a third line. */
+  scenario?: ForecastPoint[];
 }) {
   const { t } = useTranslation();
   const historyPoints: Point[] = history.map((h) => ({
@@ -80,23 +91,28 @@ export function CashFlowChart({
     actual: h.cash_balance,
   }));
 
+  const lastActual = history.length > 0 ? history[history.length - 1].cash_balance : undefined;
   const bridge: Point[] =
     history.length > 0
       ? [
           {
             month: history[history.length - 1].month,
             label: formatMonth(history[history.length - 1].month),
-            forecast: history[history.length - 1].cash_balance,
-            lower: history[history.length - 1].cash_balance,
+            forecast: lastActual,
+            scenario: scenario && scenario.length > 0 ? lastActual : undefined,
+            lower: lastActual,
             band: 0,
           },
         ]
       : [];
 
+  const scenarioByMonth = new Map((scenario ?? []).map((s) => [s.month, s.predicted_cash_balance]));
+
   const forecastPoints: Point[] = forecast.map((f) => ({
     month: f.month,
     label: formatMonth(f.month),
     forecast: f.predicted_cash_balance,
+    scenario: scenarioByMonth.get(f.month),
     lower: f.lower_bound,
     band: f.upper_bound - f.lower_bound,
   }));
@@ -155,9 +171,20 @@ export function CashFlowChart({
             isAnimationActive={false}
             name="forecast"
           />
+          {scenario && scenario.length > 0 && (
+            <Line
+              dataKey="scenario"
+              stroke={SCENARIO_COLOR}
+              strokeWidth={2}
+              strokeDasharray="2 3"
+              dot={false}
+              isAnimationActive={false}
+              name="scenario"
+            />
+          )}
         </ComposedChart>
       </ResponsiveContainer>
-      <div className="flex items-center gap-4 mt-1 text-xs text-slate-500">
+      <div className="flex items-center gap-4 mt-1 text-xs text-slate-500 flex-wrap">
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-0.5 rounded" style={{ backgroundColor: SEQUENTIAL_BLUE[700] }} />
           {t("chart.actual")}
@@ -173,6 +200,15 @@ export function CashFlowChart({
           <span className="w-3 h-2 rounded" style={{ backgroundColor: SEQUENTIAL_BLUE[100] }} />
           {t("chart.confidenceRange")}
         </span>
+        {scenario && scenario.length > 0 && (
+          <span className="flex items-center gap-1.5">
+            <span
+              className="w-3 h-0.5 rounded border-t-2 border-dashed"
+              style={{ borderColor: SCENARIO_COLOR }}
+            />
+            {t("chart.scenario")}
+          </span>
+        )}
       </div>
     </div>
   );

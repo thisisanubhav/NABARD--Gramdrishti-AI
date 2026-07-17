@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAddTransaction } from "../api/hooks";
 import { useOfflineQueue } from "../offline/useOfflineQueue";
+import { Icon } from "../components/Icon";
 import type { TransactionEntryInput } from "../api/types";
 
 export function TransactionForm({
@@ -41,41 +42,65 @@ export function TransactionForm({
     setTimeout(() => setStatus(null), 4000);
   };
 
+  const inputClass =
+    "h-touch-target rounded-lg border border-outline-variant px-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary";
+
+  const typeOptions: { value: TransactionEntryInput["type"]; label: string }[] = [
+    { value: "income", label: t("portal.income") },
+    { value: "expense", label: t("portal.expense") },
+    { value: "savings", label: t("kpi.savings") },
+  ];
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-stack-md">
       <div>
-        <label className="block text-xs font-medium text-slate-500 mb-1">{t("portal.type")}</label>
-        <select
-          value={type}
-          onChange={(e) => setType(e.target.value as TransactionEntryInput["type"])}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+        <label className="block font-label-sm text-label-sm text-slate-muted mb-1.5">{t("portal.type")}</label>
+        <div className="flex gap-2 flex-wrap">
+          {typeOptions.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setType(opt.value)}
+              className={`h-touch-target px-4 rounded-full font-label-sm text-label-sm font-bold border transition-colors ${
+                type === opt.value
+                  ? "bg-primary text-on-primary border-primary"
+                  : "bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:border-primary"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-stack-md">
+        <div>
+          <label className="block font-label-sm text-label-sm text-slate-muted mb-1">{t("portal.amount")}</label>
+          <input
+            type="number"
+            min="1"
+            step="1"
+            required
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className={`${inputClass} w-32`}
+            placeholder="5000"
+          />
+        </div>
+        <button
+          type="submit"
+          className="h-touch-target rounded-lg bg-primary text-on-primary px-5 font-label-sm text-label-sm font-bold hover:bg-primary-container transition-colors flex items-center gap-2"
         >
-          <option value="income">{t("portal.income")}</option>
-          <option value="expense">{t("portal.expense")}</option>
-          <option value="savings">{t("kpi.savings")}</option>
-        </select>
+          <Icon name="add" size={18} />
+          {t("portal.addEntry")}
+        </button>
+        {!online && (
+          <span className="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+            <Icon name="cloud_off" size={16} />
+            {t("portal.offlineHint")}
+          </span>
+        )}
+        {status && <span className="font-label-sm text-label-sm text-slate-muted">{status}</span>}
       </div>
-      <div>
-        <label className="block text-xs font-medium text-slate-500 mb-1">{t("portal.amount")}</label>
-        <input
-          type="number"
-          min="1"
-          step="1"
-          required
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm w-32"
-          placeholder="5000"
-        />
-      </div>
-      <button
-        type="submit"
-        className="rounded-lg bg-emerald-600 text-white px-4 py-2 text-sm font-medium hover:bg-emerald-700"
-      >
-        {t("portal.addEntry")}
-      </button>
-      {!online && <span className="text-xs text-amber-600">{t("portal.offlineHint")}</span>}
-      {status && <span className="text-xs text-slate-500">{status}</span>}
     </form>
   );
 }

@@ -3,7 +3,22 @@
     "signOut": "साइन आउट करें",
     "loading": "लोड हो रहा है...",
     "back": "वापस",
-    "years": "वर्ष"
+    "years": "वर्ष",
+    "enterpriseOwner": "उद्यम मालिक",
+    "fullName": "पूरा नाम",
+    "role": "भूमिका",
+    "enterprise": "उद्यम"
+  },
+  "detail": {
+    "stressIndex": "तनाव सूचकांक"
+  },
+  "navExtra": {
+    "ledger": "लेजर",
+    "alerts": "अलर्ट",
+    "profile": "प्रोफ़ाइल",
+    "transactions": "लेन-देन",
+    "riskAnalysis": "जोखिम विश्लेषण",
+    "enterprisePortfolio": "उद्यम पोर्टफोलियो"
   },
   "auth": {
     "title": "GramDrishti AI",
@@ -16,7 +31,18 @@
     "demoAccountsLabel": "डेमो खाते (पासवर्ड: demo1234)",
     "fieldOfficer": "फील्ड अधिकारी",
     "ownerAtRisk": "मालिक (जोखिम में)",
-    "ownerStable": "मालिक (स्थिर)"
+    "ownerStable": "मालिक (स्थिर)",
+    "fieldOfficerDesc": "गाँव-स्तरीय जोखिम समूहों की निगरानी करें",
+    "ownerAtRiskDesc": "सुधार सिफारिशें देखें",
+    "ownerStableDesc": "क्रेडिट विस्तार पूर्वानुमान देखें",
+    "welcomeBack": "वापसी पर स्वागत है",
+    "heroHeadline": "उन्नत पूर्वदृष्टि को ग्रामीण वास्तविकता से जोड़ना।",
+    "heroBody": "सूक्ष्म-उद्यमियों और फील्ड अधिकारियों को स्थिर वित्तीय भविष्य के लिए संस्थागत-स्तर की डेटा बुद्धिमत्ता से सशक्त बनाना।",
+    "statEnterprises": "निगरानी किए गए उद्यम",
+    "statSectors": "शामिल क्षेत्र",
+    "statForecast": "पूर्वानुमान अवधि",
+    "quickAccessDemo": "या त्वरित-पहुँच डेमो का उपयोग करें",
+    "footerRights": "© 2026 GramDrishti AI. सर्वाधिकार सुरक्षित।"
   },
   "nav": {
     "dashboard": "डैशबोर्ड"
@@ -40,6 +66,7 @@
     "levelLow": "कम",
     "levelMedium": "मध्यम",
     "levelHigh": "उच्च",
+    "alertSuffix": "जोखिम चेतावनी",
     "estimatedHorizon": "अनुमानित समय सीमा: {{count}} महीने के भीतर",
     "estimatedHorizon_other": "अनुमानित समय सीमा: {{count}} महीनों के भीतर"
   },
@@ -61,9 +88,35 @@
     "range": "सीमा",
     "riskScoreTitle": "वित्तीय जोखिम स्कोर",
     "avgRiskBySector": "क्षेत्र के अनुसार औसत जोखिम स्कोर",
-    "avgRiskScore": "औसत जोखिम स्कोर"
+    "avgRiskScore": "औसत जोखिम स्कोर",
+    "scenario": "परिदृश्य"
+  },
+  "timeline": {
+    "title": "जोखिम इतिहास",
+    "empty": "रुझान दिखाने के लिए अभी पर्याप्त इतिहास नहीं है।",
+    "worsened": "जोखिम {{from}} से बढ़कर {{to}} हुआ — {{month}}",
+    "improved": "जोखिम {{from}} से घटकर {{to}} हुआ — {{month}}",
+    "noChange": "इस अवधि में जोखिम स्तर स्थिर रहा है।"
+  },
+  "simulator": {
+    "title": "अगर ऐसा हो तो...?",
+    "subtitle": "पूर्वानुमान और जोखिम में बदलाव देखने के लिए आय या खर्च को समायोजित करके देखें।",
+    "reset": "रीसेट करें",
+    "incomeChange": "आय में बदलाव",
+    "expenseChange": "खर्च में बदलाव",
+    "calculating": "पुनः गणना हो रही है...",
+    "resultLabel": "इस परिदृश्य के तहत:",
+    "changedFromBaseline": "आपके वर्तमान जोखिम स्तर से अलग"
   },
   "portal": {
+    "welcome": "स्वागत है, {{name}}",
+    "namaste": "नमस्ते, {{name}}",
+    "searchPlaceholder": "लेन-देन, पूर्वानुमान खोजें...",
+    "smartActions": "स्मार्ट कार्रवाइयाँ",
+    "recentMonths": "हाल के महीने",
+    "colMonth": "महीना",
+    "sectorChip": "क्षेत्र: {{sector}}",
+    "districtChip": "ज़िला: {{district}}",
     "recommendationsForYou": "आपके लिए सिफारिशें",
     "recordEntryTitle": "आय, व्यय या बचत दर्ज करें",
     "type": "प्रकार",
@@ -81,11 +134,37 @@
   "officer": {
     "dashboardTitle": "फील्ड अधिकारी डैशबोर्ड",
     "monitoring": "{{count}} उद्यमों की निगरानी की जा रही है",
+    "monitoringLong": "आपके नियत गाँवों में {{count}} उद्यमों की निगरानी की जा रही है",
+    "searchPlaceholder": "उद्यम, ज़िला या राज्य से खोजें...",
     "totalEnterprises": "कुल उद्यम",
+    "riskDistribution": "जोखिम वितरण स्थिति",
+    "riskCaption": {
+      "high": "तत्काल ध्यान आवश्यक",
+      "medium": "बारीकी से निगरानी करें",
+      "low": "स्थिर और अच्छा प्रदर्शन"
+    },
     "highRisk": "उच्च जोखिम",
     "mediumRisk": "मध्यम जोखिम",
     "lowRisk": "कम जोखिम",
+    "actions": "कार्रवाई",
+    "alertsSubtitle": "{{count}} उद्यम को ध्यान देने की आवश्यकता है",
+    "alertsSubtitle_other": "{{count}} उद्यमों को ध्यान देने की आवश्यकता है",
+    "alertsEmpty": "अभी कोई सक्रिय जोखिम चेतावनी नहीं है।",
+    "climateBannerTitle": "जलवायु जोखिम पूर्वदृष्टि",
+    "climateFlag": {
+      "flood": "{{state}} · {{sector}} में बाढ़ का जोखिम सक्रिय — {{count}} उद्यम प्रभावित",
+      "flood_other": "{{state}} · {{sector}} में बाढ़ का जोखिम सक्रिय — {{count}} उद्यम प्रभावित",
+      "drought": "{{state}} · {{sector}} में सूखे का जोखिम सक्रिय — {{count}} उद्यम प्रभावित",
+      "drought_other": "{{state}} · {{sector}} में सूखे का जोखिम सक्रिय — {{count}} उद्यम प्रभावित"
+    },
+    "climateNoFlags": "इस महीने आपके पोर्टफोलियो में कोई सक्रिय बाढ़ या सूखा चेतावनी नहीं है।",
     "prioritizedList": "प्राथमिकता हस्तक्षेप सूची",
+    "riskByDistrict": "ज़िले अनुसार जोखिम",
+    "riskByDistrictDesc": "ज़िले के अनुसार औसत जोखिम स्कोर, सर्वाधिक जोखिम वाले सबसे ऊपर — तय करें कि आगे कहाँ जाना है।",
+    "enterpriseCount": "{{count}} उद्यम",
+    "enterpriseCount_other": "{{count}} उद्यम",
+    "noDistrictData": "वर्तमान फ़िल्टर के लिए कोई ज़िला डेटा नहीं है।",
+    "viewDetails": "विवरण देखें",
     "allSectors": "सभी क्षेत्र",
     "allRiskLevels": "सभी जोखिम स्तर",
     "colEnterprise": "उद्यम",
@@ -105,6 +184,12 @@
     "colMonthlyRepayment": "मासिक चुकौती",
     "colStatus": "स्थिति",
     "colMissed6m": "छूटे (6 माह)",
-    "loadingProfile": "उद्यम प्रोफ़ाइल लोड हो रही है..."
+    "loadingProfile": "उद्यम प्रोफ़ाइल लोड हो रही है...",
+    "urgentIntervention": "ऋण पुनर्गठन के लिए तत्काल हस्तक्षेप आवश्यक है।",
+    "recommendedAction": "अनुशंसित कार्रवाई",
+    "aiRiskBreakdown": "AI जोखिम विश्लेषण: जोखिम बढ़ाने वाले कारक",
+    "loanStatus": "ऋण स्थिति",
+    "missedPaymentsDetected": "{{count}} भुगतान छूटा हुआ पाया गया",
+    "missedPaymentsDetected_other": "{{count}} भुगतान छूटे हुए पाए गए"
   }
 }

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #00503a;
+    --primary-light: #0a6b4d;
+    --cream: #f5f2ea;
+    --orange: #fe932c;
+    --charcoal: #1c2321;
+    --muted: #5c6b66;
+    --border: #dcd6c8;
+    --card-bg: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1920px;
+    height: 1080px;
+    font-family: "Public Sans", sans-serif;
+    background: var(--cream);
+    background-image: radial-gradient(circle at 15% 10%, rgba(0,80,58,0.05), transparent 40%),
+                       radial-gradient(circle at 90% 85%, rgba(254,147,44,0.07), transparent 40%);
+    color: var(--charcoal);
+    padding: 64px 80px;
+    display: flex;
+    flex-direction: column;
+  }
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+    line-height: 1;
+    vertical-align: middle;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 44px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand .material-symbols-outlined {
+    font-size: 34px;
+    color: var(--primary);
+  }
+  .brand span.name {
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--primary);
+  }
+  .brand span.name em {
+    font-style: normal;
+    color: var(--muted);
+    font-family: "Public Sans", sans-serif;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--charcoal);
+    text-align: center;
+    margin: 0 0 6px;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 19px;
+    margin-bottom: 40px;
+  }
+  .pipeline {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 76px 1fr 76px 1fr;
+    align-items: stretch;
+    gap: 0;
+  }
+  .stage {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px -12px rgba(0,80,58,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .stage-head {
+    background: var(--primary);
+    color: #fff;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .stage:nth-child(3) .stage-head,
+  .stage-head.accent {
+    background: var(--orange);
+  }
+  .stage-head .material-symbols-outlined {
+    font-size: 30px;
+  }
+  .stage-head .label {
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 23px;
+  }
+  .stage-body {
+    padding: 26px 28px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1;
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .item .material-symbols-outlined {
+    font-size: 24px;
+    color: var(--primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .item .text .title {
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--charcoal);
+    line-height: 1.3;
+  }
+  .item .text .desc {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+  .arrow-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .arrow-col .material-symbols-outlined {
+    font-size: 44px;
+    color: var(--orange);
+  }
+  footer {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 15px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="material-symbols-outlined">agriculture</span>
+      <span class="name">GramDrishti <em>AI</em></span>
+    </div>
+    <div style="color: var(--muted); font-size: 15px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">System Architecture</div>
+  </header>
+
+  <h1>From Raw Data to an Actionable Answer</h1>
+  <p class="subtitle">One pipeline, real-time, for both Field Officer and Enterprise Owner dashboards</p>
+
+  <div class="pipeline">
+    <div class="stage">
+      <div class="stage-head">
+        <span class="material-symbols-outlined">database</span>
+        <span class="label">Data Sources</span>
+      </div>
+      <div class="stage-body">
+        <div class="item">
+          <span class="material-symbols-outlined">receipt_long</span>
+          <div class="text">
+            <div class="title">Financial Records</div>
+            <div class="desc">Monthly income, expenses, cash balance, savings</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">account_balance</span>
+          <div class="text">
+            <div class="title">Loan History</div>
+            <div class="desc">Principal, outstanding, repayment status</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">contactless</span>
+          <div class="text">
+            <div class="title">UPI Transactions</div>
+            <div class="desc">Digital payment activity trends</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">rainy</span>
+          <div class="text">
+            <div class="title">Climate &amp; Commodity Data</div>
+            <div class="desc">Rainfall, drought/flood flags, prices — by sector &amp; state</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-col">
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head accent">
+        <span class="material-symbols-outlined">psychology</span>
+        <span class="label">ML Engine</span>
+      </div>
+      <div class="stage-body">
+        <div class="item">
+          <span class="material-symbols-outlined">query_stats</span>
+          <div class="text">
+            <div class="title">LightGBM Forecast Model</div>
+            <div class="desc">6-month cash-flow projection with confidence bands</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">warning</span>
+          <div class="text">
+            <div class="title">LightGBM Risk Classifier</div>
+            <div class="desc">Low / medium / high risk scoring</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">insights</span>
+          <div class="text">
+            <div class="title">SHAP Explainability</div>
+            <div class="desc">Decomposes each score into ranked, human-readable drivers</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">lightbulb</span>
+          <div class="text">
+            <div class="title">Recommendation Engine</div>
+            <div class="desc">Top drivers mapped to concrete, sector-specific actions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-col">
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <span class="material-symbols-outlined">dns</span>
+        <span class="label">Delivery</span>
+      </div>
+      <div class="stage-body">
+        <div class="item">
+          <span class="material-symbols-outlined">api</span>
+          <div class="text">
+            <div class="title">FastAPI REST API</div>
+            <div class="desc">JWT-secured, role-scoped access</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">devices</span>
+          <div class="text">
+            <div class="title">React + TypeScript Frontend</div>
+            <div class="desc">Responsive across mobile and desktop</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">wifi_off</span>
+          <div class="text">
+            <div class="title">Offline-First PWA</div>
+            <div class="desc">Queues transactions with no signal, auto-syncs</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="material-symbols-outlined">translate</span>
+          <div class="text">
+            <div class="title">Bilingual</div>
+            <div class="desc">Full English and Hindi support</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Real-time for both Field Officer portfolio views and Enterprise Owner dashboards</footer>
+</body>
+</html>

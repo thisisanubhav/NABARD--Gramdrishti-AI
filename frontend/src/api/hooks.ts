@@ -1,16 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "./client";
 import type {
+  AlertOut,
+  ClimateFlag,
   EnterpriseOut,
   FinancialRecordOut,
   ForecastOut,
   LoanEntryInput,
   LoanOut,
+  OfficerAlertOut,
   OfficerEnterpriseRow,
   OfficerSummary,
   RecommendationsOut,
+  RiskHistoryOut,
   RiskOut,
   Sector,
+  SimulateOut,
+  SimulateRequest,
   Token,
   TransactionEntryInput,
 } from "./types";
@@ -72,6 +78,21 @@ export function useRisk(id: number | undefined) {
   });
 }
 
+export function useRiskHistory(id: number | undefined) {
+  return useQuery({
+    queryKey: ["risk-history", id],
+    queryFn: async () => (await apiClient.get<RiskHistoryOut>(`/enterprises/${id}/risk-history`)).data,
+    enabled: !!id,
+  });
+}
+
+export function useSimulate(id: number | undefined) {
+  return useMutation({
+    mutationFn: async (payload: SimulateRequest) =>
+      (await apiClient.post<SimulateOut>(`/enterprises/${id}/simulate`, payload)).data,
+  });
+}
+
 export function useRecommendations(id: number | undefined) {
   return useQuery({
     queryKey: ["recommendations", id],
@@ -124,5 +145,27 @@ export function useOfficerSummary() {
   return useQuery({
     queryKey: ["officer-summary"],
     queryFn: async () => (await apiClient.get<OfficerSummary>("/officer/summary")).data,
+  });
+}
+
+export function useClimateFlags() {
+  return useQuery({
+    queryKey: ["officer-climate-flags"],
+    queryFn: async () => (await apiClient.get<ClimateFlag[]>("/officer/climate-flags")).data,
+  });
+}
+
+export function useOfficerAlerts() {
+  return useQuery({
+    queryKey: ["officer-alerts"],
+    queryFn: async () => (await apiClient.get<OfficerAlertOut[]>("/officer/alerts")).data,
+  });
+}
+
+export function useAlerts(enterpriseId: number | undefined) {
+  return useQuery({
+    queryKey: ["alerts", enterpriseId],
+    queryFn: async () => (await apiClient.get<AlertOut[]>(`/enterprises/${enterpriseId}/alerts`)).data,
+    enabled: !!enterpriseId,
   });
 }

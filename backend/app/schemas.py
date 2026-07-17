@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import Literal
 
 from pydantic import BaseModel, EmailStr
 
@@ -157,6 +158,62 @@ class RecommendationsOut(BaseModel):
     recommendations: list[Recommendation]
 
 
+# ---- Risk history ----
+class RiskHistoryPoint(BaseModel):
+    month: date
+    level: RiskLevel
+    score: float
+
+    class Config:
+        from_attributes = True
+
+
+class RiskHistoryOut(BaseModel):
+    enterprise_id: int
+    history: list[RiskHistoryPoint]
+
+
+# ---- Alerts ----
+class AlertOut(BaseModel):
+    month: date
+    level: RiskLevel
+    score: float
+    horizon_months: int
+    message: str
+    generated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class OfficerAlertOut(BaseModel):
+    enterprise_id: int
+    enterprise_name: str
+    level: RiskLevel
+    score: float
+    horizon_months: int
+    message: str
+    generated_at: datetime
+
+
+# ---- What-if simulator ----
+class SimulateRequest(BaseModel):
+    income_change_pct: float = 0.0
+    expense_change_pct: float = 0.0
+
+
+class SimulateOut(BaseModel):
+    enterprise_id: int
+    income_change_pct: float
+    expense_change_pct: float
+    forecast: list[ForecastPoint]
+    risk_level: RiskLevel
+    risk_score: float
+    risk_message: str
+    drivers: list[RiskDriver]
+    recommendations: list[Recommendation]
+
+
 # ---- Officer views ----
 class OfficerEnterpriseRow(BaseModel):
     enterprise_id: int
@@ -198,3 +255,11 @@ class ExternalIndicatorOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ClimateFlagOut(BaseModel):
+    sector: Sector
+    state: str
+    flag_type: Literal["flood", "drought"]
+    enterprise_count: int
+    month: date

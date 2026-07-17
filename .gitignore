@@ -13,3 +13,8 @@ frontend/dev-dist/
 
 # OS / editor
 .DS_Store
+
+# Office lock/temp files
+~$*.pptx
+~$*.docx
+~$*.xlsx

@@ -15,8 +15,8 @@ export default defineConfig({
         name: 'GramDrishti AI',
         short_name: 'GramDrishti',
         description: 'AI-powered foresight for rural enterprises',
-        theme_color: '#047857',
-        background_color: '#f8fafc',
+        theme_color: '#00503a',
+        background_color: '#f8f9ff',
         display: 'standalone',
         start_url: '/',
         icons: [

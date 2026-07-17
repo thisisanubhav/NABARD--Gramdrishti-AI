@@ -10,17 +10,17 @@ export function RiskGauge({ level, score }: { level: RiskLevel; score: number })
     <div>
       <div className="flex items-center justify-between mb-2">
         <RiskBadge level={level} />
-        <span className="text-sm font-semibold tabular-nums" style={{ color: RISK_COLOR[level] }}>
+        <span className="font-kpi-number text-lg font-bold tabular-nums" style={{ color: RISK_COLOR[level] }}>
           {pct}%
         </span>
       </div>
-      <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+      <div className="h-2 rounded-full bg-surface-variant overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
           style={{ width: `${pct}%`, backgroundColor: RISK_COLOR[level] }}
         />
       </div>
-      <div className="flex justify-between mt-1 text-[10px] text-slate-400">
+      <div className="flex justify-between mt-1 font-label-caps text-[10px] text-slate-muted">
         <span>{t("risk.levelLow")}</span>
         <span>{t("risk.levelMedium")}</span>
         <span>{t("risk.levelHigh")}</span>

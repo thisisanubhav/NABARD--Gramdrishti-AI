@@ -1,11 +1,11 @@
-// Chart palette, following the dataviz skill's validated reference palette
-// (references/palette.md). Status colors are reserved for risk levels only.
+// Chart palette. Risk semantic colors follow the GramDrishti AI design
+// system (see index.css @theme) — status colors are reserved for risk
+// levels only, never reused as a chart series color.
 
 export const STATUS = {
-  good: "#0ca30c",
-  warning: "#fab219",
-  serious: "#ec835a",
-  critical: "#d03b3b",
+  good: "#059669", // success-green
+  warning: "#fe932c", // secondary-container
+  critical: "#ba1a1a", // error
 };
 
 export const RISK_COLOR: Record<"low" | "medium" | "high", string> = {
@@ -15,9 +15,17 @@ export const RISK_COLOR: Record<"low" | "medium" | "high", string> = {
 };
 
 export const RISK_BG: Record<"low" | "medium" | "high", string> = {
-  low: "#e7f6e7",
-  medium: "#fef3d9",
-  high: "#fbe4e4",
+  low: "#e3f2ec",
+  medium: "#fef1e2",
+  high: "#ffdad6", // error-container
+};
+
+// i18n keys for each risk level's short label (t("risk.levelLow") etc.) —
+// shared by any component that needs to render a level as translated text.
+export const RISK_LEVEL_KEY: Record<"low" | "medium" | "high", string> = {
+  low: "risk.levelLow",
+  medium: "risk.levelMedium",
+  high: "risk.levelHigh",
 };
 
 export const CATEGORICAL = [

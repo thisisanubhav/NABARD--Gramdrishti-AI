@@ -3,7 +3,22 @@
     "signOut": "Sign out",
     "loading": "Loading...",
     "back": "Back",
-    "years": "years"
+    "years": "years",
+    "enterpriseOwner": "Enterprise Owner",
+    "fullName": "Full name",
+    "role": "Role",
+    "enterprise": "Enterprise"
+  },
+  "detail": {
+    "stressIndex": "Stress Index"
+  },
+  "navExtra": {
+    "ledger": "Ledger",
+    "alerts": "Alerts",
+    "profile": "Profile",
+    "transactions": "Transactions",
+    "riskAnalysis": "Risk Analysis",
+    "enterprisePortfolio": "Enterprise Portfolio"
   },
   "auth": {
     "title": "GramDrishti AI",
@@ -16,7 +31,18 @@
     "demoAccountsLabel": "Demo accounts (password: demo1234)",
     "fieldOfficer": "Field Officer",
     "ownerAtRisk": "Owner (at-risk)",
-    "ownerStable": "Owner (stable)"
+    "ownerStable": "Owner (stable)",
+    "fieldOfficerDesc": "Monitor village-level risk clusters",
+    "ownerAtRiskDesc": "Review mitigation recommendations",
+    "ownerStableDesc": "Explore credit expansion forecasts",
+    "welcomeBack": "Welcome Back",
+    "heroHeadline": "Bridging advanced foresight with grounded rural reality.",
+    "heroBody": "Empowering micro-entrepreneurs and field officers with institutional-grade data intelligence for a stable financial future.",
+    "statEnterprises": "Enterprises Monitored",
+    "statSectors": "Sectors Covered",
+    "statForecast": "Forecast Horizon",
+    "quickAccessDemo": "Or use quick-access demo",
+    "footerRights": "© 2026 GramDrishti AI. All rights reserved."
   },
   "nav": {
     "dashboard": "Dashboard"
@@ -40,6 +66,7 @@
     "levelLow": "Low",
     "levelMedium": "Medium",
     "levelHigh": "High",
+    "alertSuffix": "Risk Alert",
     "estimatedHorizon": "Estimated time horizon: within {{count}} month",
     "estimatedHorizon_other": "Estimated time horizon: within {{count}} months"
   },
@@ -61,9 +88,35 @@
     "range": "Range",
     "riskScoreTitle": "Financial risk score",
     "avgRiskBySector": "Average risk score by sector",
-    "avgRiskScore": "Avg risk score"
+    "avgRiskScore": "Avg risk score",
+    "scenario": "Scenario"
+  },
+  "timeline": {
+    "title": "Risk history",
+    "empty": "Not enough history yet to show a risk trend.",
+    "worsened": "Risk increased from {{from}} to {{to}} — {{month}}",
+    "improved": "Risk eased from {{from}} to {{to}} — {{month}}",
+    "noChange": "Risk level has stayed steady over this period."
+  },
+  "simulator": {
+    "title": "What if...?",
+    "subtitle": "Try adjusting income or expenses to see how the forecast and risk would change.",
+    "reset": "Reset",
+    "incomeChange": "Income change",
+    "expenseChange": "Expense change",
+    "calculating": "Recalculating...",
+    "resultLabel": "Under this scenario:",
+    "changedFromBaseline": "different from your current risk level"
   },
   "portal": {
+    "welcome": "Welcome, {{name}}",
+    "namaste": "Namaste, {{name}}",
+    "searchPlaceholder": "Search transactions, forecasts...",
+    "smartActions": "Smart Actions",
+    "recentMonths": "Recent Months",
+    "colMonth": "Month",
+    "sectorChip": "Sector: {{sector}}",
+    "districtChip": "District: {{district}}",
     "recommendationsForYou": "Recommendations for you",
     "recordEntryTitle": "Record income, expense, or savings",
     "type": "Type",
@@ -81,11 +134,37 @@
   "officer": {
     "dashboardTitle": "Field Officer Dashboard",
     "monitoring": "Monitoring {{count}} enterprises",
+    "monitoringLong": "Monitoring {{count}} enterprises across your assigned villages",
+    "searchPlaceholder": "Search by enterprise, district, or state...",
     "totalEnterprises": "Total enterprises",
+    "riskDistribution": "Risk Distribution Status",
+    "riskCaption": {
+      "high": "Needs urgent attention",
+      "medium": "Monitor closely",
+      "low": "Stable & performing"
+    },
     "highRisk": "High risk",
     "mediumRisk": "Medium risk",
     "lowRisk": "Low risk",
+    "actions": "Actions",
+    "alertsSubtitle": "{{count}} enterprise needs attention",
+    "alertsSubtitle_other": "{{count}} enterprises need attention",
+    "alertsEmpty": "No active risk alerts right now.",
+    "climateBannerTitle": "Climate Risk Foresight",
+    "climateFlag": {
+      "flood": "Flood risk active in {{state}} · {{sector}} — affecting {{count}} enterprise",
+      "flood_other": "Flood risk active in {{state}} · {{sector}} — affecting {{count}} enterprises",
+      "drought": "Drought risk active in {{state}} · {{sector}} — affecting {{count}} enterprise",
+      "drought_other": "Drought risk active in {{state}} · {{sector}} — affecting {{count}} enterprises"
+    },
+    "climateNoFlags": "No active flood or drought flags across your portfolio this month.",
     "prioritizedList": "Prioritized intervention list",
+    "riskByDistrict": "Risk by District",
+    "riskByDistrictDesc": "Average risk score by district, ranked highest first — prioritize where to visit next.",
+    "enterpriseCount": "{{count}} enterprise",
+    "enterpriseCount_other": "{{count}} enterprises",
+    "noDistrictData": "No district data for the current filter.",
+    "viewDetails": "View details",
     "allSectors": "All sectors",
     "allRiskLevels": "All risk levels",
     "colEnterprise": "Enterprise",
@@ -105,6 +184,12 @@
     "colMonthlyRepayment": "Monthly repayment",
     "colStatus": "Status",
     "colMissed6m": "Missed (6m)",
-    "loadingProfile": "Loading enterprise profile..."
+    "loadingProfile": "Loading enterprise profile...",
+    "urgentIntervention": "Urgent intervention required to restructure debt.",
+    "recommendedAction": "Recommended Action",
+    "aiRiskBreakdown": "AI Risk Breakdown: What is increasing risk",
+    "loanStatus": "Loan Status",
+    "missedPaymentsDetected": "{{count}} missed payment detected",
+    "missedPaymentsDetected_other": "{{count}} missed payments detected"
   }
 }

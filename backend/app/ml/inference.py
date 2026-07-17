@@ -1,7 +1,9 @@
 """Loads trained model artifacts once and exposes per-enterprise forecast,
 risk, and recommendation predictions built from live DB state."""
 
-from datetime import date
+import copy
+import json
+from datetime import date, datetime
 
 from sqlalchemy.orm import Session
 
@@ -9,7 +11,7 @@ from app.config import settings
 from app.ml import forecast_model, risk_model
 from app.ml.features import RecursiveState, row_to_feature_vector
 from app.ml.recommend import build_recommendations
-from app.models import Enterprise, ExternalIndicator, FinancialRecord, Loan, UpiTransaction
+from app.models import Enterprise, ExternalIndicator, FinancialRecord, Loan, RiskAlert, UpiTransaction
 
 _forecast_cache: dict = {}
 _risk_cache: dict = {}
@@ -46,6 +48,15 @@ def _build_state(db: Session, enterprise: Enterprise) -> tuple[RecursiveState, d
         .order_by(FinancialRecord.month)
         .all()
     )
+    return _build_state_from_financials(db, enterprise, financials)
+
+
+def _build_state_from_financials(
+    db: Session, enterprise: Enterprise, financials: list[FinancialRecord]
+) -> tuple[RecursiveState, date, dict[date, dict]]:
+    """Split out from _build_state so a backfill script can pass a truncated
+    financials window and get back the state/feature row 'as of' that month,
+    reusing the exact same feature logic as live inference."""
     if not financials:
         raise ValueError("No financial history for this enterprise")
 
@@ -118,7 +129,48 @@ def risk_for_enterprise(db: Session, enterprise: Enterprise) -> dict:
     X = row_to_feature_vector(feature_row)
     result = risk_model.predict(model, X)
     result["message"] = _build_message(result, enterprise)
+    _record_risk_snapshot(db, enterprise, last_month, result)
     return result
+
+
+def _record_risk_snapshot(db: Session, enterprise: Enterprise, month: date, result: dict) -> None:
+    """Upserts one risk_alerts row per (enterprise, month) so the risk history
+    timeline reflects the latest computed state for that month rather than
+    accumulating a row per view."""
+    existing = (
+        db.query(RiskAlert)
+        .filter(RiskAlert.enterprise_id == enterprise.id, RiskAlert.month == month)
+        .first()
+    )
+    if existing:
+        existing.level = result["level"]
+        existing.score = result["score"]
+        existing.drivers = json.dumps(result["drivers"])
+        existing.horizon_months = result["horizon_months"]
+        existing.message = result["message"]
+        existing.generated_at = datetime.utcnow()
+    else:
+        db.add(
+            RiskAlert(
+                enterprise_id=enterprise.id,
+                month=month,
+                level=result["level"],
+                score=result["score"],
+                drivers=json.dumps(result["drivers"]),
+                horizon_months=result["horizon_months"],
+                message=result["message"],
+            )
+        )
+    db.commit()
+
+
+def risk_history_for_enterprise(db: Session, enterprise_id: int) -> list[RiskAlert]:
+    return (
+        db.query(RiskAlert)
+        .filter(RiskAlert.enterprise_id == enterprise_id)
+        .order_by(RiskAlert.month)
+        .all()
+    )
 
 
 def _build_message(result: dict, enterprise: Enterprise) -> str:
@@ -144,3 +196,43 @@ def _build_message(result: dict, enterprise: Enterprise) -> str:
 def recommendations_for_enterprise(db: Session, enterprise: Enterprise) -> list[dict]:
     risk = risk_for_enterprise(db, enterprise)
     return build_recommendations(enterprise.sector.value, risk["drivers"], risk["level"])
+
+
+def simulate_for_enterprise(
+    db: Session,
+    enterprise: Enterprise,
+    income_change_pct: float,
+    expense_change_pct: float,
+    horizon: int = 6,
+) -> dict:
+    """'What if' scenario: shifts the enterprise's most recent month's income/
+    expenses by the given percentages (today's cash balance itself is left
+    untouched — that's a fact, not a hypothetical) and re-runs the same
+    forecast and risk models from that adjusted starting point. Prior months
+    are left as-is, so trend/volatility features still reflect real history.
+    Not persisted — this is exploratory, not a recorded snapshot."""
+
+    forecast_model_obj, residual_std = _get_forecast_model()
+    risk_model_obj = _get_risk_model()
+    state, last_month, ext_by_month = _build_state(db, enterprise)
+
+    latest = state.history[-1]
+    adjusted = copy.deepcopy(latest)
+    adjusted["income"] = max(0.0, latest["income"] * (1 + income_change_pct / 100))
+    adjusted["expenses"] = max(0.0, latest["expenses"] * (1 + expense_change_pct / 100))
+    state.history[-1] = adjusted
+
+    ext_row = ext_by_month.get(last_month, {})
+    feature_row = state.build_row(last_month, ext_row)
+    X = row_to_feature_vector(feature_row)
+    risk_result = risk_model.predict(risk_model_obj, X)
+    risk_result["message"] = _build_message(risk_result, enterprise)
+
+    points = forecast_model.predict_recursive(
+        forecast_model_obj, residual_std, state, ext_by_month, last_month, horizon
+    )
+    recommendations = build_recommendations(
+        enterprise.sector.value, risk_result["drivers"], risk_result["level"]
+    )
+
+    return dict(forecast=points, risk=risk_result, recommendations=recommendations)

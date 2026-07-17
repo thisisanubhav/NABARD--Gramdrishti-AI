@@ -89,6 +89,53 @@ export interface RecommendationsOut {
   recommendations: Recommendation[];
 }
 
+export interface RiskHistoryPoint {
+  month: string;
+  level: RiskLevel;
+  score: number;
+}
+
+export interface RiskHistoryOut {
+  enterprise_id: number;
+  history: RiskHistoryPoint[];
+}
+
+export interface AlertOut {
+  month: string;
+  level: RiskLevel;
+  score: number;
+  horizon_months: number;
+  message: string;
+  generated_at: string;
+}
+
+export interface OfficerAlertOut {
+  enterprise_id: number;
+  enterprise_name: string;
+  level: RiskLevel;
+  score: number;
+  horizon_months: number;
+  message: string;
+  generated_at: string;
+}
+
+export interface SimulateRequest {
+  income_change_pct: number;
+  expense_change_pct: number;
+}
+
+export interface SimulateOut {
+  enterprise_id: number;
+  income_change_pct: number;
+  expense_change_pct: number;
+  forecast: ForecastPoint[];
+  risk_level: RiskLevel;
+  risk_score: number;
+  risk_message: string;
+  drivers: RiskDriver[];
+  recommendations: Recommendation[];
+}
+
 export interface OfficerEnterpriseRow {
   enterprise_id: number;
   name: string;
@@ -106,6 +153,14 @@ export interface SectorBreakdown {
   count: number;
   avg_risk_score: number;
   high_risk_count: number;
+}
+
+export interface ClimateFlag {
+  sector: Sector;
+  state: string;
+  flag_type: "flood" | "drought";
+  enterprise_count: number;
+  month: string;
 }
 
 export interface OfficerSummary {

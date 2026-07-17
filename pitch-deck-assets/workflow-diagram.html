@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #00503a;
+    --cream: #f5f2ea;
+    --orange: #fe932c;
+    --charcoal: #1c2321;
+    --muted: #5c6b66;
+    --border: #dcd6c8;
+    --owner-tag: #00503a;
+    --system-tag: #fe932c;
+    --officer-tag: #0a6b4d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1920px;
+    height: 1080px;
+    font-family: "Public Sans", sans-serif;
+    background: var(--cream);
+    background-image: radial-gradient(circle at 12% 12%, rgba(0,80,58,0.05), transparent 40%),
+                       radial-gradient(circle at 92% 90%, rgba(254,147,44,0.07), transparent 40%);
+    color: var(--charcoal);
+    padding: 60px 76px;
+    display: flex;
+    flex-direction: column;
+  }
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+    line-height: 1;
+    vertical-align: middle;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand .material-symbols-outlined { font-size: 32px; color: var(--primary); }
+  .brand span.name { font-family: "Lora", serif; font-weight: 700; font-size: 24px; color: var(--primary); }
+  .brand span.name em { font-style: normal; color: var(--muted); font-family: "Public Sans", sans-serif; font-weight: 500; }
+  .kicker { color: var(--muted); font-size: 14px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  h1 {
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 38px;
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 36px;
+  }
+  .legend .chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .legend .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .track {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+  }
+  .connector {
+    position: absolute;
+    top: 108px;
+    left: 100px;
+    right: 100px;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, var(--border) 0 14px, transparent 14px 22px);
+    z-index: 0;
+  }
+  .steps {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 22px;
+    width: 100%;
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .badge-num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 3px solid var(--primary);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 18px;
+    box-shadow: 0 6px 16px -6px rgba(0,80,58,0.35);
+  }
+  .actor-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 18px 28px;
+    box-shadow: 0 8px 22px -12px rgba(0,80,58,0.18);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card .material-symbols-outlined.icon {
+    font-size: 32px;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  .card .title {
+    font-weight: 700;
+    font-size: 16.5px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .card .desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  footer {
+    margin-top: 36px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 15px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="material-symbols-outlined">agriculture</span>
+      <span class="name">GramDrishti <em>AI</em></span>
+    </div>
+    <div class="kicker">End-to-End Workflow</div>
+  </header>
+
+  <main>
+  <h1>From a Transaction to an Intervention</h1>
+  <p class="subtitle">One continuous loop, shared across the Enterprise Owner and Field Officer</p>
+
+  <div class="legend">
+    <div class="chip"><span class="dot" style="background: var(--owner-tag)"></span>Enterprise Owner</div>
+    <div class="chip"><span class="dot" style="background: var(--system-tag)"></span>GramDrishti AI</div>
+    <div class="chip"><span class="dot" style="background: var(--officer-tag)"></span>Field Officer</div>
+  </div>
+
+  <div class="track">
+    <div class="connector"></div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="badge-num">1</div>
+        <span class="actor-tag" style="background: var(--owner-tag)">Owner</span>
+        <div class="card">
+          <span class="material-symbols-outlined icon">edit_note</span>
+          <div class="title">Records a transaction</div>
+          <div class="desc">Income, expense, or savings — online or offline, queued and synced automatically</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge-num">2</div>
+        <span class="actor-tag" style="background: var(--system-tag)">System</span>
+        <div class="card">
+          <span class="material-symbols-outlined icon">psychology</span>
+          <div class="title">Recalculates forecast &amp; risk</div>
+          <div class="desc">LightGBM models rerun instantly — 6-month forecast + risk score with SHAP drivers</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge-num">3</div>
+        <span class="actor-tag" style="background: var(--system-tag)">System</span>
+        <div class="card">
+          <span class="material-symbols-outlined icon">notifications_active</span>
+          <div class="title">Surfaces a risk alert</div>
+          <div class="desc">If risk rises, a real alert + tailored recommendation reaches the Owner directly</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge-num">4</div>
+        <span class="actor-tag" style="background: var(--officer-tag)">Officer</span>
+        <div class="card">
+          <span class="material-symbols-outlined icon">dashboard</span>
+          <div class="title">Sees it in the portfolio</div>
+          <div class="desc">Flagged in the prioritized intervention list, district risk view, and alerts feed</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge-num">5</div>
+        <span class="actor-tag" style="background: var(--officer-tag)">Officer</span>
+        <div class="card">
+          <span class="material-symbols-outlined icon">person_search</span>
+          <div class="title">Drills into the driver</div>
+          <div class="desc">Reviews the AI Risk Breakdown to see exactly why — not just a score</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge-num">6</div>
+        <span class="actor-tag" style="background: var(--owner-tag)">Both</span>
+        <div class="card">
+          <span class="material-symbols-outlined icon">timeline</span>
+          <div class="title">Outcome is tracked</div>
+          <div class="desc">Risk History Timeline shows whether the intervention worked, closing the loop</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>Every step runs on real data — no simulated scores, no fabricated alerts</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Lora:wght@600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #00503a;
+    --primary-light: #0a6b4d;
+    --cream: #f5f2ea;
+    --orange: #fe932c;
+    --charcoal: #1c2321;
+    --muted: #5c6b66;
+    --border: #dcd6c8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1920px;
+    height: 1080px;
+    font-family: "Public Sans", sans-serif;
+    background: var(--cream);
+    background-image: radial-gradient(circle at 10% 8%, rgba(0,80,58,0.05), transparent 40%),
+                       radial-gradient(circle at 95% 95%, rgba(254,147,44,0.06), transparent 40%);
+    color: var(--charcoal);
+    padding: 52px 72px 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+    line-height: 1;
+    vertical-align: middle;
+  }
+  code, .chip-code {
+    font-family: "JetBrains Mono", monospace;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand .material-symbols-outlined { font-size: 30px; color: var(--primary); }
+  .brand span.name { font-family: "Lora", serif; font-weight: 700; font-size: 22px; color: var(--primary); }
+  .brand span.name em { font-style: normal; color: var(--muted); font-family: "Public Sans", sans-serif; font-weight: 500; }
+  .kicker { color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  h1 { font-family: "Lora", serif; font-weight: 700; font-size: 32px; text-align: center; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: var(--muted); font-size: 16px; margin-bottom: 28px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 90px 1fr;
+    align-items: start;
+    gap: 0 0;
+  }
+  .col { display: flex; flex-direction: column; gap: 14px; position: relative; }
+  .col::before {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 30px;
+    bottom: 30px;
+    width: 2px;
+    background: repeating-linear-gradient(180deg, var(--border) 0 10px, transparent 10px 16px);
+    z-index: 0;
+  }
+  .mid-arrow { align-self: center; }
+  .mid-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mid-arrow .material-symbols-outlined { font-size: 40px; color: var(--orange); }
+
+  .row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+  .num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--primary);
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px -4px rgba(0,80,58,0.3);
+  }
+  .row.system .num { border-color: var(--orange); color: var(--orange); }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    flex: 1;
+    box-shadow: 0 6px 16px -10px rgba(0,80,58,0.2);
+  }
+  .card .title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .card .material-symbols-outlined.icon { font-size: 21px; color: var(--primary); }
+  .card .title { font-weight: 700; font-size: 16.5px; }
+  .card .code-chip {
+    display: inline-block;
+    background: var(--charcoal);
+    color: #d9f2e6;
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin: 2px 6px 2px 0;
+  }
+  .card .desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+
+  .offline-note {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff3e5;
+    border: 1px dashed var(--orange);
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 13.5px;
+    color: var(--charcoal);
+  }
+  .offline-note .material-symbols-outlined { color: var(--orange); font-size: 22px; }
+  .offline-note b { font-weight: 700; }
+
+  .stack {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .stack .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 8px;
+  }
+  .stack .tech-chip {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12.5px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    color: var(--primary);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="material-symbols-outlined">agriculture</span>
+      <span class="name">GramDrishti <em>AI</em></span>
+    </div>
+    <div class="kicker">Technical Request Flow</div>
+  </header>
+
+  <main>
+  <h1>Request Lifecycle — Client to Explainable Result</h1>
+  <p class="subtitle">Every risk score and forecast traces through this exact pipeline, end to end</p>
+
+  <div class="grid">
+    <div class="col">
+      <div class="row">
+        <div class="num">1</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">devices</span><span class="title">Client Request</span></div>
+          <span class="code-chip">React + TypeScript</span><span class="code-chip">TanStack Query</span>
+          <div class="desc">UI issues <code>GET /enterprises/{id}/risk</code> (or forecast / alerts / simulate) with a JWT bearer token</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="num">2</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">lock</span><span class="title">Auth &amp; Routing</span></div>
+          <span class="code-chip">get_current_user()</span><span class="code-chip">require_role()</span>
+          <div class="desc">FastAPI dependency injection validates the token and role, routes via <code>intelligence.py</code> / <code>officer.py</code> / <code>transactions.py</code></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="num">3</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">table_view</span><span class="title">Data Retrieval</span></div>
+          <span class="code-chip">SQLAlchemy ORM</span><span class="code-chip">SQLite</span>
+          <div class="desc">Queries <code>FinancialRecord</code>, <code>Loan</code>, <code>UpiTransaction</code>, <code>ExternalIndicator</code> — joined by sector + state + month</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="num">4</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">tune</span><span class="title">Feature Engineering</span></div>
+          <span class="code-chip">app/ml/features.py</span>
+          <div class="desc">Builds the feature row: 3-month rolling trends, expense/income ratio, cash-buffer months, loan-repayment burden, savings ratio, climate indicators</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mid-arrow">
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </div>
+
+    <div class="col">
+      <div class="row system">
+        <div class="num">5</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">psychology</span><span class="title">ML Inference</span></div>
+          <span class="code-chip">LightGBM Regressor</span><span class="code-chip">LightGBM Classifier</span>
+          <div class="desc"><code>risk_model.predict()</code> — 6-month cash-flow forecast + low/medium/high risk classification</div>
+        </div>
+      </div>
+      <div class="row system">
+        <div class="num">6</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">insights</span><span class="title">Explainability</span></div>
+          <span class="code-chip">SHAP TreeExplainer</span>
+          <div class="desc">Decomposes the prediction into ranked, signed per-feature impacts; <code>top_risk_driver_label()</code> filters to risk-increasing drivers</div>
+        </div>
+      </div>
+      <div class="row system">
+        <div class="num">7</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">lightbulb</span><span class="title">Recommendation + Persistence</span></div>
+          <span class="code-chip">app/ml/recommend.py</span><span class="code-chip">RiskAlert</span>
+          <div class="desc">Rule table maps driver + sector → actionable text; result upserted via <code>_record_risk_snapshot()</code> keyed on (enterprise_id, month)</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="num">8</div>
+        <div class="card">
+          <div class="title-row"><span class="material-symbols-outlined icon">monitor</span><span class="title">Response &amp; Render</span></div>
+          <span class="code-chip">Pydantic</span><span class="code-chip">React Query cache</span>
+          <div class="desc"><code>RiskOut</code> / <code>ForecastOut</code> / <code>AlertOut</code> → JSON → cached → rendered by <code>StressGauge</code>, <code>RiskBreakdownPanel</code>, <code>CashFlowChart</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="offline-note">
+    <span class="material-symbols-outlined">wifi_off</span>
+    <div><b>Offline path:</b> if step 1 fails, <code>useOfflineQueue</code> writes to Dexie (IndexedDB) as a <code>pendingTransactions</code> row; auto-flushes and retries the whole pipeline when <code>navigator.onLine</code> fires.</div>
+  </div>
+  </main>
+
+  <div class="stack">
+    <span class="label">Stack</span>
+    <span class="tech-chip">React 18</span>
+    <span class="tech-chip">TypeScript</span>
+    <span class="tech-chip">TanStack Query</span>
+    <span class="tech-chip">Tailwind CSS v4</span>
+    <span class="tech-chip">FastAPI</span>
+    <span class="tech-chip">SQLAlchemy</span>
+    <span class="tech-chip">SQLite</span>
+    <span class="tech-chip">LightGBM</span>
+    <span class="tech-chip">SHAP</span>
+    <span class="tech-chip">JWT</span>
+    <span class="tech-chip">Dexie / IndexedDB</span>
+    <span class="tech-chip">vite-plugin-pwa</span>
+    <span class="tech-chip">react-i18next</span>
+  </div>
+</body>
+</html>

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
@@ -5,8 +7,14 @@ from app.auth import require_role
 from app.database import get_db
 from app.ml import inference
 from app.ml.risk_model import top_risk_driver_label
-from app.models import Enterprise, FinancialRecord, Role, Sector
-from app.schemas import OfficerEnterpriseRow, OfficerSummary, SectorBreakdown
+from app.models import Enterprise, ExternalIndicator, FinancialRecord, Role, Sector
+from app.schemas import (
+    ClimateFlagOut,
+    OfficerAlertOut,
+    OfficerEnterpriseRow,
+    OfficerSummary,
+    SectorBreakdown,
+)
 
 router = APIRouter(prefix="/officer", tags=["officer"], dependencies=[Depends(require_role(Role.field_officer))])
 
@@ -32,6 +40,8 @@ def _risk_rows(db: Session, enterprises: list[Enterprise]) -> list[dict]:
                 enterprise=ent,
                 level=risk["level"],
                 score=risk["score"],
+                message=risk["message"],
+                horizon_months=risk["horizon_months"],
                 top_driver=top_risk_driver_label(risk["drivers"]) or "No dominant factor",
             )
         )
@@ -106,3 +116,57 @@ def summary(db: Session = Depends(get_db)):
         low_risk_count=low,
         sector_breakdown=sector_breakdown,
     )
+
+
+@router.get("/climate-flags", response_model=list[ClimateFlagOut])
+def climate_flags(db: Session = Depends(get_db)):
+    enterprises = db.query(Enterprise).all()
+
+    group_counts: dict[tuple[Sector, str], int] = {}
+    for ent in enterprises:
+        key = (ent.sector, ent.state)
+        group_counts[key] = group_counts.get(key, 0) + 1
+
+    results: list[ClimateFlagOut] = []
+    for (sector, state), count in group_counts.items():
+        latest = (
+            db.query(ExternalIndicator)
+            .filter(ExternalIndicator.sector == sector, ExternalIndicator.state == state)
+            .order_by(ExternalIndicator.month.desc())
+            .first()
+        )
+        if not latest:
+            continue
+        if latest.flood_flag:
+            results.append(
+                ClimateFlagOut(sector=sector, state=state, flag_type="flood", enterprise_count=count, month=latest.month)
+            )
+        if latest.drought_flag:
+            results.append(
+                ClimateFlagOut(sector=sector, state=state, flag_type="drought", enterprise_count=count, month=latest.month)
+            )
+
+    results.sort(key=lambda r: -r.enterprise_count)
+    return results
+
+
+@router.get("/alerts", response_model=list[OfficerAlertOut])
+def officer_alerts(db: Session = Depends(get_db)):
+    enterprises = db.query(Enterprise).all()
+    rows = _risk_rows(db, enterprises)
+    alert_rows = [r for r in rows if r["level"] in ("medium", "high")]
+    alert_rows.sort(key=lambda r: (RISK_ORDER[r["level"]], -r["score"]))
+
+    now = datetime.utcnow()
+    return [
+        OfficerAlertOut(
+            enterprise_id=r["enterprise"].id,
+            enterprise_name=r["enterprise"].name,
+            level=r["level"],
+            score=r["score"],
+            horizon_months=r["horizon_months"],
+            message=r["message"],
+            generated_at=now,
+        )
+        for r in alert_rows
+    ]
